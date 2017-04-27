@@ -8,9 +8,9 @@ This package also implements the [redis cluster hash slot calculation](https://r
 go get github.com/natethebosch/redlock
 
 # depenancy
-go get github.com/snksoft/crc.git
+go get github.com/snksoft/crc
 ```
 
 ### API
 
-... todo
+[gopkg.in docs](https://gopkg.in/natethebosch/redlock.v1)
