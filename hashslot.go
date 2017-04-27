@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+// Calculates the redis hash slot for the key provided
+// implements the spec found at https://redis.io/topics/cluster-spec
 func ComputeHashSlot(key string) int {
 
 	startIndex := strings.IndexRune(key, '{')

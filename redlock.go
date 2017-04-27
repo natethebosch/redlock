@@ -85,7 +85,7 @@ func (r *RedLock) lock(db *redis.ClusterClient, key string, duration time.Durati
 	return nil
 }
 
-func (r *RedLock) Unlock(db *redis.ClusterClient, key string) {
+func (r *RedLock) Unlock(db *redis.ClusterClient) {
 
 	for _, key := range r.keys {
 
