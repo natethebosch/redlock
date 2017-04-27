@@ -16,6 +16,10 @@ type RedLock struct {
 	keys   []string
 }
 
+// Captures a distributed lock at the key provided.
+// Duration specifies how long the lock will be held, the actual lock duration will be less than the value provided
+// because of the delay in locking each node in the cluster.
+// This method will block until the lock is captured.
 func (r *RedLock) Lock(db *redis.ClusterClient, key string, duration time.Duration) {
 
 	for {
@@ -29,6 +33,10 @@ func (r *RedLock) Lock(db *redis.ClusterClient, key string, duration time.Durati
 	}
 }
 
+// Captures a distributed lock at the key provided using a context.
+// Duration specifies how long the lock will be held, the actual lock duration will be less than the value provided
+// because of the delay in locking each node in the cluster.
+// Errors will only originate from the context.
 func (r *RedLock) LockWithContext(ctx context.Context, db *redis.ClusterClient, key string, duration time.Duration) error {
 
 	for {
@@ -66,7 +74,7 @@ func (r *RedLock) lock(db *redis.ClusterClient, key string, duration time.Durati
 
 		slotKey, err := keyWithinSlotRange(key, slot.Start, slot.End)
 		if err != nil {
-			r.Unlock(db, key)
+			r.Unlock(db)
 			return err
 		}
 
@@ -78,13 +86,14 @@ func (r *RedLock) lock(db *redis.ClusterClient, key string, duration time.Durati
 	}
 
 	if successCount <= (len(slots) / 2) {
-		r.Unlock(db, key)
+		r.Unlock(db)
 		return errors.New("failed to capture lock")
 	}
 
 	return nil
 }
 
+// Releases
 func (r *RedLock) Unlock(db *redis.ClusterClient) {
 
 	for _, key := range r.keys {
