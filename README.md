@@ -13,4 +13,4 @@ go get github.com/snksoft/crc
 
 ### API
 
-[gopkg.in docs](https://gopkg.in/natethebosch/redlock.v1)
+[gopkg.in docs](https://godoc.org/gopkg.in/natethebosch/redlock.v1)
